@@ -14,6 +14,14 @@ function formatNumber(value) {
   });
 }
 
+function formatForexNumber(value) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return "—";
+  return value.toLocaleString("en-US", {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4,
+  });
+}
+
 function useFonts() {
   useEffect(() => {
     if (document.getElementById("fx-fonts")) return;
@@ -98,13 +106,13 @@ function MarketRow({ badge, title, subtitle, sell, buy, compact = false }) {
       </div>
       <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
         <div style={{ textAlign: "right", paddingRight: pr }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: numFs, fontWeight: 500, color: "#00d4a0", letterSpacing: "-0.02em" }}>{sell}</div>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: labelFs, color: "#6b6b85", letterSpacing: "0.1em" }}>SELL</div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: numFs, fontWeight: 500, color: "#7eb8ff", letterSpacing: "-0.02em" }}>{buy}</div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: labelFs, color: "#6b6b85", letterSpacing: "0.1em" }}>BUY</div>
         </div>
         <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.07)" }} />
         <div style={{ textAlign: "right", paddingLeft: pl }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: numFs, fontWeight: 500, color: "#7eb8ff", letterSpacing: "-0.02em" }}>{buy}</div>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: labelFs, color: "#6b6b85", letterSpacing: "0.1em" }}>BUY</div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: numFs, fontWeight: 500, color: "#00d4a0", letterSpacing: "-0.02em" }}>{sell}</div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: labelFs, color: "#6b6b85", letterSpacing: "0.1em" }}>SELL</div>
         </div>
       </div>
     </div>
@@ -156,8 +164,8 @@ function ForexSection({ currencies, isMobile, isTiny }) {
             badge={<Badge label={row.code.slice(0, 3)} type="fx" compact={isTiny} />}
             title={`${row.code}/TRY`}
             subtitle={row.name}
-            sell={formatNumber(row.sell)}
-            buy={formatNumber(row.buy)}
+            sell={formatForexNumber(row.sell)}
+            buy={formatForexNumber(row.buy)}
           />
         ))}
       </div>
@@ -249,31 +257,36 @@ function Tabs({ active, onChange }) {
 
 function ContactBar() {
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#4b5563", marginBottom: 18 }}>
-      <a
-        href="https://wa.me/905550000000"
-        style={{ color: "#6b7280", textDecoration: "none" }}
-        target="_blank"
-        rel="noreferrer"
-      >
-        WhatsApp: +90 555 000 00 00
-      </a>
-      <a
-        href="https://t.me/ArzinoExchange"
-        style={{ color: "#6b7280", textDecoration: "none" }}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Telegram: @ArzinoExchange
-      </a>
-      <a
-        href="https://instagram.com/arzino.exchange"
-        style={{ color: "#6b7280", textDecoration: "none" }}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Instagram: @arzino.exchange
-      </a>
+    <div style={{ display: "flex", flexDirection: "column", gap: 6, fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#4b5563", marginBottom: 18 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+        <a
+          href="https://wa.me/905315919450"
+          style={{ color: "#6b7280", textDecoration: "none" }}
+          target="_blank"
+          rel="noreferrer"
+        >
+          WhatsApp: +90 531 591 94 50
+        </a>
+        <a
+          href="https://t.me/Arzino_Sarrafi"
+          style={{ color: "#6b7280", textDecoration: "none" }}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Telegram: @ArzinoExchange
+        </a>
+        <a
+          href="https://chat.whatsapp.com/Lsbuls2dRoE8gJDuxdMhu7?mode=gi_t"
+          style={{ color: "#6b7280", textDecoration: "none" }}
+          target="_blank"
+          rel="noreferrer"
+        >
+          WhatsApp Group: arzino
+        </a>
+      </div>
+      <div style={{ color: "#6b7280" }}>
+        Address: Beşyol, Çimen Sk, küçükçekmece/İstanbul
+      </div>
     </div>
   );
 }
