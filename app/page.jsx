@@ -230,7 +230,7 @@ function CryptoSection({ items, isTiny }) {
 
 // ─── Tabs ─────────────────────────────────────────────────────────────────────
 
-const TABS = ["All", "Forex", "Metals", "Crypto"];
+const TABS = ["Forex", "Metals", "Crypto", "All"];
 
 function Tabs({ active, onChange }) {
   return (
@@ -303,7 +303,7 @@ export default function Home() {
   const [board, setBoard] = useState(null);
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const [activeTab, setActiveTab] = useState("All");
+  const [activeTab, setActiveTab] = useState("Forex");
 
   const fetchBoard = useCallback(async () => {
     setStatus("loading");
