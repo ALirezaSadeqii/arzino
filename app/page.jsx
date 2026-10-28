@@ -592,24 +592,29 @@ const TABS = [
   { id: "All", label: "All Markets", icon: "🌐" },
 ];
 
-function Tabs({ active, onChange, counts }) {
+function Tabs({ active, onChange, counts, isMobile, isTiny }) {
   return (
     <div
       style={{
-        display: "flex",
-        gap: 3,
+        display: isMobile ? "grid" : "flex",
+        gridTemplateColumns: isMobile ? "repeat(4, minmax(0, 1fr))" : undefined,
+        gap: isMobile ? 3 : 4,
         background: "rgba(14, 17, 24, 0.75)",
         border: "1px solid rgba(255, 255, 255, 0.08)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         borderRadius: 14,
         padding: 4,
-        width: "fit-content",
+        width: isMobile ? "100%" : "fit-content",
+        maxWidth: "100%",
+        boxSizing: "border-box",
       }}
     >
       {TABS.map((tab) => {
         const isActive = active === tab.id;
         const count = counts?.[tab.id] ?? null;
+        // On mobile, show "All" instead of "All Markets" to save space comfortably
+        const label = isMobile && tab.id === "All" ? "All" : tab.label;
 
         return (
           <button
@@ -619,8 +624,9 @@ function Tabs({ active, onChange, counts }) {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 6,
-              fontSize: 12,
+              justifyContent: "center",
+              gap: isTiny ? 3 : 4,
+              fontSize: isTiny ? 11 : isMobile ? 11.5 : 12,
               fontWeight: isActive ? 600 : 500,
               color: isActive ? "#ffffff" : "#9ca3af",
               background: isActive
@@ -633,25 +639,38 @@ function Tabs({ active, onChange, counts }) {
                 ? "0 2px 8px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)"
                 : "none",
               borderRadius: 10,
-              padding: "6px 12px",
+              padding: isMobile ? (isTiny ? "6px 2px" : "6px 4px") : "6px 12px",
               cursor: "pointer",
               transition: "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+              minWidth: 0,
             }}
           >
-            <span>{tab.icon}</span>
-            <span>{tab.label}</span>
+            <span style={{ fontSize: isTiny ? 11 : 12, flexShrink: 0 }}>
+              {tab.icon}
+            </span>
+            <span
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {label}
+            </span>
             {count != null && (
               <span
                 className="tabular-nums"
                 style={{
-                  fontSize: 10,
+                  fontSize: isTiny ? 9 : 9.5,
                   fontWeight: 600,
                   color: isActive ? "#00d4a0" : "#6b7280",
                   background: isActive
                     ? "rgba(0, 212, 160, 0.12)"
                     : "rgba(255, 255, 255, 0.04)",
                   borderRadius: 9999,
-                  padding: "1px 5px",
+                  padding: isTiny ? "1px 3px" : "1px 4px",
+                  lineHeight: 1.1,
+                  flexShrink: 0,
                 }}
               >
                 {count}
@@ -977,6 +996,8 @@ export default function Home() {
             active={activeTab}
             onChange={setActiveTab}
             counts={counts}
+            isMobile={isMobile}
+            isTiny={isTiny}
           />
 
           {/* Real-time Search Input */}
